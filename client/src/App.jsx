@@ -11,7 +11,7 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/teams')
+        const response = await axios.get('http://localhost:8000/api/teams')
         setTeams(response.data)
         setLoading(false)
       } catch (err) {
