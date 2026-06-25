@@ -57,19 +57,26 @@ export default function Dashboard({ teams }) {
         <div className="chart-card">
           <h2>Expected vs Actual Goals</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
-              <YAxis />
-              <Tooltip />
+            <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 60, left: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} stroke="#6b7280" />
+              <YAxis stroke="#6b7280" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #3b82f6',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                }}
+                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
+              />
               <Legend />
-              <Bar dataKey="expected" fill="#8884d8" name="Expected Goals (xG)" />
-              <Bar dataKey="actual" fill="#82ca9d" name="Actual Goals" />
+              <Bar dataKey="expected" fill="#3b82f6" name="Expected Goals (xG)" radius={[8, 8, 0, 0]} />
+              <Bar dataKey="actual" fill="#10b981" name="Actual Goals" radius={[8, 8, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
           <p className="insight-text">
-            This chart shows how teams perform relative to their expected goals. Teams above the line are
-            overperforming.
+            This chart shows how teams perform relative to their expected goals. Teams with higher actual goals are overperforming their xG.
           </p>
         </div>
 
@@ -77,16 +84,24 @@ export default function Dashboard({ teams }) {
         <div className="chart-card">
           <h2>Conversion Efficiency</h2>
           <ResponsiveContainer width="100%" height={300}>
-            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="xGFor" name="Expected Goals (xG)" unit="" />
-              <YAxis dataKey="goalsFor" name="Actual Goals Scored" />
-              <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-              <Scatter name="Teams" data={efficiencyData} fill="#8884d8" />
+            <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="xGFor" name="Expected Goals (xG)" stroke="#6b7280" />
+              <YAxis dataKey="goalsFor" name="Actual Goals Scored" stroke="#6b7280" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #3b82f6',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                }}
+                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
+              />
+              <Scatter name="Teams" data={efficiencyData} fill="#f59e0b" />
             </ScatterChart>
           </ResponsiveContainer>
           <p className="insight-text">
-            Teams higher on the chart score more goals. Teams to the right create better chances (higher xG).
+            Teams higher on the chart score more goals. Teams to the right create better chances (higher xG). Points above the diagonal are overperforming.
           </p>
         </div>
 
@@ -100,15 +115,26 @@ export default function Dashboard({ teams }) {
                 xGDiff: t.stats.xGDiff,
               }))}
               layout="vertical"
+              margin={{ top: 5, right: 20, bottom: 5, left: 100 }}
             >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" />
-              <YAxis dataKey="name" type="category" width={100} />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis type="number" stroke="#6b7280" />
+              <YAxis dataKey="name" type="category" width={95} stroke="#6b7280" />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: '#ffffff',
+                  border: '2px solid #3b82f6',
+                  borderRadius: '8px',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                }}
+                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
+              />
               <Bar
                 dataKey="xGDiff"
-                fill={(entry) => (entry.xGDiff > 0 ? '#82ca9d' : '#ff7c7c')}
+                fill="#3b82f6"
+                shape={<CustomBar />}
                 name="xG Difference"
+                radius={[0, 8, 8, 0]}
               />
             </BarChart>
           </ResponsiveContainer>

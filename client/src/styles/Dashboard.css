@@ -129,6 +129,31 @@
 
 .chart-card .recharts-surface {
   border-radius: var(--radius-lg);
+  background: var(--white) !important;
+}
+
+/* Recharts Bar Styling */
+.recharts-bar-rectangle {
+  transition: all var(--transition-base) !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+}
+
+.recharts-bar-rectangle:hover {
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12)) !important;
+}
+
+/* Recharts Scatter Styling */
+.recharts-scatter {
+  opacity: 0.9;
+}
+
+.recharts-scatter circle {
+  transition: all var(--transition-base) !important;
+}
+
+.recharts-scatter circle:hover {
+  opacity: 1 !important;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15)) !important;
 }
 
 /* Tooltip Styling */
@@ -141,27 +166,50 @@
   border: 2px solid var(--primary-accent) !important;
   border-radius: var(--radius-lg) !important;
   box-shadow: var(--shadow-xl) !important;
-  padding: var(--space-3) !important;
+  padding: var(--space-4) !important;
 }
 
 .recharts-tooltip-label {
   color: var(--primary-dark) !important;
-  font-weight: 600;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
+  margin-bottom: 4px !important;
 }
 
 .recharts-tooltip-item {
   color: var(--gray-700) !important;
+  font-weight: 500 !important;
 }
 
 /* Legend Styling */
 .recharts-legend-wrapper {
-  padding-top: var(--space-4) !important;
+  padding-top: var(--space-6) !important;
+  padding-bottom: 0 !important;
+}
+
+.recharts-legend-item {
+  padding-right: var(--space-6) !important;
 }
 
 .recharts-legend-item-text {
   color: var(--gray-700) !important;
-  font-weight: 500;
-  font-size: var(--text-sm);
+  font-weight: 600 !important;
+  font-size: var(--text-sm) !important;
+}
+
+/* Axis Styling */
+.recharts-cartesian-axis-tick text {
+  fill: var(--gray-600) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: var(--gray-600) !important;
+}
+
+.recharts-surface {
+  background: transparent !important;
 }
 
 /* Loading & Error States */
