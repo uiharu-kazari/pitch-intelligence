@@ -1,0 +1,25 @@
+{
+  "name": "football-xg-analytics",
+  "version": "1.0.0",
+  "description": "Football/Soccer Expected Goals Analytics Dashboard",
+  "main": "server/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "node server/index.js",
+    "client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "preview": "cd client && npm run preview"
+  },
+  "keywords": ["sports", "analytics", "football", "soccer", "xg"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
