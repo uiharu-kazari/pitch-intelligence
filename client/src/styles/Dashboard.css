@@ -1,53 +1,230 @@
+@import './design-system.css';
+
 .dashboard {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
+  padding: var(--space-8);
+  animation: fadeIn 0.6s var(--transition-base);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
+  gap: var(--space-8);
+  margin-bottom: var(--space-12);
 }
 
+/* Professional Card Styling */
 .chart-card,
 .table-card {
-  background: white;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-10);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-100);
+  transition: all var(--transition-base);
+  overflow: hidden;
+  position: relative;
+
+  /* Subtle gradient overlay on top */
+  background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
 }
 
+/* Hover effect with depth */
 .chart-card:hover,
 .table-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.01);
+  box-shadow: var(--shadow-2xl);
+  border-color: var(--primary-accent);
 }
 
+/* Animated gradient border on hover */
+.chart-card::before,
+.table-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    var(--chart-blue),
+    var(--chart-green),
+    var(--chart-orange));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  background-size: 200% 100%;
+  animation: shimmer 3s var(--transition-slow) infinite;
+}
+
+.chart-card:hover::before,
+.table-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 100% center;
+  }
+}
+
+/* Card Titles */
 .chart-card h2,
 .table-card h2 {
-  margin: 0 0 20px 0;
-  font-size: 1.3em;
-  color: #1e3c72;
-  border-bottom: 2px solid #2a5298;
-  padding-bottom: 10px;
+  margin: 0 0 var(--space-6) 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--primary-dark);
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
 }
 
+.chart-card h2::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, var(--chart-blue), var(--chart-green));
+  border-radius: var(--radius-sm);
+}
+
+/* Insight Text */
 .insight-text {
-  margin-top: 15px;
-  font-size: 0.9em;
-  color: #555;
-  line-height: 1.5;
+  margin-top: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--gray-600);
+  line-height: 1.6;
+  padding: var(--space-4);
+  background: var(--gray-50);
+  border-left: 3px solid var(--primary-accent);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.insight-text:hover {
+  background: var(--gray-100);
+  border-left-color: var(--chart-green);
+}
+
+/* Recharts Customization */
+.chart-card .recharts-wrapper {
+  margin: var(--space-4) 0;
+}
+
+.chart-card .recharts-surface {
+  border-radius: var(--radius-lg);
+}
+
+/* Tooltip Styling */
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.recharts-default-tooltip {
+  background: var(--white) !important;
+  border: 2px solid var(--primary-accent) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: var(--space-3) !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--primary-dark) !important;
+  font-weight: 600;
+}
+
+.recharts-tooltip-item {
+  color: var(--gray-700) !important;
+}
+
+/* Legend Styling */
+.recharts-legend-wrapper {
+  padding-top: var(--space-4) !important;
+}
+
+.recharts-legend-item-text {
+  color: var(--gray-700) !important;
+  font-weight: 500;
+  font-size: var(--text-sm);
+}
+
+/* Loading & Error States */
+.loading,
+.error {
+  text-align: center;
+  color: var(--white);
+  padding: var(--space-12);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  border-radius: var(--radius-2xl);
+  animation: slideIn 0.4s var(--transition-base);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+}
+
+.error {
+  background: linear-gradient(135deg, var(--danger), var(--warning));
+  box-shadow: var(--shadow-lg);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
 }
 
 @media (max-width: 768px) {
+  .dashboard {
+    padding: var(--space-4);
+  }
+
   .dashboard-grid {
     grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .chart-card,
   .table-card {
-    padding: 15px;
+    padding: var(--space-6);
+  }
+
+  .chart-card h2,
+  .table-card h2 {
+    font-size: var(--text-xl);
+  }
+
+  .chart-card:hover,
+  .table-card:hover {
+    transform: translateY(-4px) scale(1.005);
   }
 }
