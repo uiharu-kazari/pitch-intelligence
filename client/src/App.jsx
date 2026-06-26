@@ -22,7 +22,9 @@ import {
 } from './icons'
 import './App.css'
 
-const API = 'http://localhost:8000'
+// In production (Vercel) the API lives at same-origin /api/* serverless functions;
+// in dev it's the local Express server.
+const API = import.meta.env.PROD ? '' : 'http://localhost:8000'
 
 // Code-split the 3D module so the dashboard route isn't penalized by the three.js bundle.
 const SoccerVision = lazy(() => import('./pages/SoccerVision/SoccerVision'))

@@ -1,0 +1,26 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - button "Pitch Intelligence home" [ref=e6] [cursor=pointer]:
+          - img [ref=e11]
+          - generic [ref=e15]:
+            - generic [ref=e16]: Pitch Intelligence
+            - generic [ref=e17]: Soccer analytics in 3D
+        - navigation "Primary" [ref=e18]:
+          - button "Dashboard" [ref=e19] [cursor=pointer]:
+            - img [ref=e20]
+            - generic [ref=e23]: Dashboard
+          - button "Soccer Vision 3D" [ref=e24] [cursor=pointer]:
+            - img [ref=e25]
+            - generic [ref=e28]: Soccer Vision 3D
+        - button "Switch to light mode" [ref=e29] [cursor=pointer]:
+          - generic [ref=e30]:
+            - img [ref=e31]
+            - img [ref=e33]
+          - generic [ref=e36]: Light
+    - main [ref=e663]:
+      - paragraph [ref=e666]: Loading Soccer Vision 3D…
+    - contentinfo [ref=e426]:
+      - paragraph [ref=e427]: Pitch Intelligence · built for the AQX Sports Analytics Hackathon · xG is a simplified shot-quality proxy; Soccer Vision 3D blends simulated scenarios with real SkillCorner A-League tracking.
+  - generic [ref=e662]: "65"

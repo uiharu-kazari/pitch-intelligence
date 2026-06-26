@@ -1,0 +1,349 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button "Pitch Intelligence home" [ref=e6] [cursor=pointer]:
+        - img [ref=e11]
+        - generic [ref=e15]:
+          - generic [ref=e16]: Pitch Intelligence
+          - generic [ref=e17]: Soccer analytics in 3D
+      - navigation "Primary" [ref=e18]:
+        - button "Dashboard" [ref=e19] [cursor=pointer]:
+          - img [ref=e20]
+          - generic [ref=e23]: Dashboard
+        - button "Soccer Vision 3D" [ref=e24] [cursor=pointer]:
+          - img [ref=e25]
+          - generic [ref=e28]: Soccer Vision 3D
+      - button "Switch to light mode" [ref=e29] [cursor=pointer]:
+        - generic [ref=e30]:
+          - img [ref=e31]
+          - img [ref=e33]
+        - generic [ref=e36]: Light
+  - main [ref=e37]:
+    - generic [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - img [ref=e41]
+          - text: New flagship feature
+        - heading "Soccer Vision 3D" [level=2] [ref=e43]
+        - paragraph [ref=e44]: Interactive tactical analysis for passing lanes, pressure, and open space.
+        - paragraph [ref=e45]:
+          - strong [ref=e46]: "Why this matters:"
+          - text: coaches and players think in movement and space, not spreadsheets. Soccer Vision 3D turns tracking data into an interactive film-room — replay a possession, and instantly see the best pass and why it's best.
+        - list [ref=e47]:
+          - listitem [ref=e48]: Replay attacking sequences on a real 3D pitch
+          - listitem [ref=e50]: See passing lanes graded green / yellow / red
+          - listitem [ref=e52]: Read defensive pressure and open space at a glance
+          - listitem [ref=e54]: A transparent attacking-threat score for every option
+        - generic [ref=e56]:
+          - button "Try demo play" [ref=e57] [cursor=pointer]:
+            - img [ref=e58]
+            - text: Try demo play
+          - generic [ref=e60]: Simulated scenarios + real SkillCorner tracking
+      - button "Open Soccer Vision 3D" [ref=e61] [cursor=pointer]:
+        - img [ref=e62]
+        - generic [ref=e79]:
+          - img [ref=e80]
+          - text: 3D Tactical View
+    - region "League summary" [ref=e83]:
+      - article [ref=e84]:
+        - img [ref=e86]
+        - generic [ref=e89]:
+          - paragraph [ref=e90]: Best xG difference
+          - paragraph [ref=e91]: Manchester City
+          - paragraph [ref=e92]:
+            - generic [ref=e93]: +0.0 net xG
+      - article [ref=e94]:
+        - img [ref=e96]
+        - generic [ref=e98]:
+          - paragraph [ref=e99]: Top scorer
+          - paragraph [ref=e100]: Manchester City
+          - paragraph [ref=e101]:
+            - generic [ref=e102]: 0 goals
+      - article [ref=e103]:
+        - img [ref=e105]
+        - generic [ref=e109]:
+          - paragraph [ref=e110]: Meanest defense
+          - paragraph [ref=e111]: Manchester City
+          - paragraph [ref=e112]:
+            - generic [ref=e113]: 0.0 xG conceded
+      - article [ref=e114]:
+        - img [ref=e116]
+        - generic [ref=e120]:
+          - paragraph [ref=e121]: Goals per match
+          - paragraph [ref=e122]: "0.00"
+          - paragraph [ref=e123]: 12 teams tracked
+    - generic [ref=e124]:
+      - generic [ref=e125]:
+        - heading "Performance Breakdown" [level=2] [ref=e126]
+        - group "Number of teams to show" [ref=e127]:
+          - generic [ref=e128]: Show
+          - button "Top 6" [ref=e129] [cursor=pointer]
+          - button "Top 8" [pressed] [ref=e130] [cursor=pointer]
+          - button "Top 12" [ref=e131] [cursor=pointer]
+      - generic [ref=e132]:
+        - generic [ref=e135]:
+          - img [ref=e137]
+          - generic [ref=e140]:
+            - heading "Expected vs Actual Goals" [level=3] [ref=e141]
+            - paragraph [ref=e142]: Bars above their xG twin are overperforming their chances
+        - generic [ref=e147]:
+          - img [ref=e149]
+          - generic [ref=e152]:
+            - heading "Net xG Difference" [level=3] [ref=e153]
+            - paragraph [ref=e154]: xG created minus xG conceded — the strongest signal of true quality
+        - generic [ref=e159]:
+          - img [ref=e161]
+          - generic [ref=e165]:
+            - heading "Conversion Efficiency" [level=3] [ref=e166]
+            - paragraph [ref=e167]: Points above the dashed line score more than their chances suggest
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - img [ref=e174]
+            - generic [ref=e176]:
+              - heading "Team DNA" [level=3] [ref=e177]
+              - paragraph [ref=e178]: Each axis is scaled 0–100 against the rest of the league
+          - generic [ref=e179]:
+            - generic [ref=e180]: Select team for profile
+            - combobox "Select team for profile" [ref=e181] [cursor=pointer]:
+              - option "Manchester City" [selected]
+              - option "Liverpool"
+              - option "Arsenal"
+              - option "Tottenham Hotspur"
+              - option "Chelsea"
+              - option "Brighton & Hove Albion"
+              - option "Manchester United"
+              - option "Aston Villa"
+              - option "Fulham"
+              - option "Nottingham Forest"
+              - option "West Ham United"
+              - option "Crystal Palace"
+      - generic [ref=e184]:
+        - generic [ref=e185]:
+          - heading "Team Statistics" [level=3] [ref=e186]
+          - paragraph [ref=e187]: Click a header to sort · click a row to load its profile
+        - table [ref=e189]:
+          - rowgroup [ref=e190]:
+            - row "Team GP Goals xG xGA Net xG Conv. SoT %" [ref=e191]:
+              - columnheader "Team" [ref=e192]:
+                - button "Team" [ref=e193] [cursor=pointer]:
+                  - generic [ref=e194]: Team
+              - columnheader "GP" [ref=e195]:
+                - button "GP" [ref=e196] [cursor=pointer]:
+                  - generic [ref=e197]: GP
+              - columnheader "Goals" [ref=e198]:
+                - button "Goals" [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]: Goals
+              - columnheader "xG" [ref=e201]:
+                - button "xG" [ref=e202] [cursor=pointer]:
+                  - generic [ref=e203]: xG
+              - columnheader "xGA" [ref=e204]:
+                - button "xGA" [ref=e205] [cursor=pointer]:
+                  - generic [ref=e206]: xGA
+              - columnheader "Net xG" [ref=e207]:
+                - button "Net xG" [ref=e208] [cursor=pointer]:
+                  - generic [ref=e209]: Net xG
+                  - img [ref=e211]
+              - columnheader "Conv." [ref=e213]:
+                - button "Conv." [ref=e214] [cursor=pointer]:
+                  - generic [ref=e215]: Conv.
+              - columnheader "SoT %" [ref=e216]:
+                - button "SoT %" [ref=e217] [cursor=pointer]:
+                  - generic [ref=e218]: SoT %
+          - rowgroup [ref=e219]:
+            - row "Manchester City. Press Enter to load profile." [ref=e220] [cursor=pointer]:
+              - cell "1 Manchester City" [ref=e221]:
+                - generic [ref=e222]: "1"
+                - generic [ref=e223]: MCI
+                - generic [ref=e224]: Manchester City
+              - cell "19" [ref=e225]
+              - cell "61" [ref=e226]
+              - cell "58.1" [ref=e227]
+              - cell "25.1" [ref=e228]
+              - cell "+32.9" [ref=e229]
+              - cell "1.05×" [ref=e230]
+              - cell "37%" [ref=e231]
+            - row "Liverpool. Press Enter to load profile." [ref=e232] [cursor=pointer]:
+              - cell "2 Liverpool" [ref=e233]:
+                - generic [ref=e234]: "2"
+                - generic [ref=e235]: LIV
+                - generic [ref=e236]: Liverpool
+              - cell "19" [ref=e237]
+              - cell "54" [ref=e238]
+              - cell "53.6" [ref=e239]
+              - cell "26.4" [ref=e240]
+              - cell "+27.2" [ref=e241]
+              - cell "1.01×" [ref=e242]
+              - cell "37%" [ref=e243]
+            - row "Arsenal. Press Enter to load profile." [ref=e244] [cursor=pointer]:
+              - cell "3 Arsenal" [ref=e245]:
+                - generic [ref=e246]: "3"
+                - generic [ref=e247]: ARS
+                - generic [ref=e248]: Arsenal
+              - cell "19" [ref=e249]
+              - cell "52" [ref=e250]
+              - cell "50.0" [ref=e251]
+              - cell "28.4" [ref=e252]
+              - cell "+21.7" [ref=e253]
+              - cell "1.04×" [ref=e254]
+              - cell "37%" [ref=e255]
+            - row "Tottenham Hotspur. Press Enter to load profile." [ref=e256] [cursor=pointer]:
+              - cell "4 Tottenham Hotspur" [ref=e257]:
+                - generic [ref=e258]: "4"
+                - generic [ref=e259]: TOT
+                - generic [ref=e260]: Tottenham Hotspur
+              - cell "19" [ref=e261]
+              - cell "45" [ref=e262]
+              - cell "44.9" [ref=e263]
+              - cell "31.1" [ref=e264]
+              - cell "+13.8" [ref=e265]
+              - cell "1.00×" [ref=e266]
+              - cell "37%" [ref=e267]
+            - row "Chelsea. Press Enter to load profile." [ref=e268] [cursor=pointer]:
+              - cell "5 Chelsea" [ref=e269]:
+                - generic [ref=e270]: "5"
+                - generic [ref=e271]: CHE
+                - generic [ref=e272]: Chelsea
+              - cell "19" [ref=e273]
+              - cell "43" [ref=e274]
+              - cell "43.2" [ref=e275]
+              - cell "29.7" [ref=e276]
+              - cell "+13.5" [ref=e277]
+              - cell "1.00×" [ref=e278]
+              - cell "36%" [ref=e279]
+            - row "Aston Villa. Press Enter to load profile." [ref=e280] [cursor=pointer]:
+              - cell "6 Aston Villa" [ref=e281]:
+                - generic [ref=e282]: "6"
+                - generic [ref=e283]: AVL
+                - generic [ref=e284]: Aston Villa
+              - cell "19" [ref=e285]
+              - cell "40" [ref=e286]
+              - cell "40.8" [ref=e287]
+              - cell "32.4" [ref=e288]
+              - cell "+8.4" [ref=e289]
+              - cell "0.98×" [ref=e290]
+              - cell "36%" [ref=e291]
+            - row "Brighton & Hove Albion. Press Enter to load profile." [ref=e292] [cursor=pointer]:
+              - cell "7 Brighton & Hove Albion" [ref=e293]:
+                - generic [ref=e294]: "7"
+                - generic [ref=e295]: BHA
+                - generic [ref=e296]: Brighton & Hove Albion
+              - cell "19" [ref=e297]
+              - cell "38" [ref=e298]
+              - cell "37.6" [ref=e299]
+              - cell "33.5" [ref=e300]
+              - cell "+4.1" [ref=e301]
+              - cell "1.01×" [ref=e302]
+              - cell "36%" [ref=e303]
+            - row "Manchester United. Press Enter to load profile." [ref=e304] [cursor=pointer]:
+              - cell "8 Manchester United" [ref=e305]:
+                - generic [ref=e306]: "8"
+                - generic [ref=e307]: MUN
+                - generic [ref=e308]: Manchester United
+              - cell "19" [ref=e309]
+              - cell "37" [ref=e310]
+              - cell "38.9" [ref=e311]
+              - cell "35.6" [ref=e312]
+              - cell "+3.4" [ref=e313]
+              - cell "0.95×" [ref=e314]
+              - cell "36%" [ref=e315]
+            - row "Nottingham Forest. Press Enter to load profile." [ref=e316] [cursor=pointer]:
+              - cell "9 Nottingham Forest" [ref=e317]:
+                - generic [ref=e318]: "9"
+                - generic [ref=e319]: NFO
+                - generic [ref=e320]: Nottingham Forest
+              - cell "19" [ref=e321]
+              - cell "36" [ref=e322]
+              - cell "36.3" [ref=e323]
+              - cell "37.3" [ref=e324]
+              - cell "-1.0" [ref=e325]
+              - cell "0.99×" [ref=e326]
+              - cell "36%" [ref=e327]
+            - row "Fulham. Press Enter to load profile." [ref=e328] [cursor=pointer]:
+              - cell "10 Fulham" [ref=e329]:
+                - generic [ref=e330]: "10"
+                - generic [ref=e331]: FUL
+                - generic [ref=e332]: Fulham
+              - cell "19" [ref=e333]
+              - cell "32" [ref=e334]
+              - cell "32.5" [ref=e335]
+              - cell "34.7" [ref=e336]
+              - cell "-2.3" [ref=e337]
+              - cell "0.98×" [ref=e338]
+              - cell "36%" [ref=e339]
+            - row "Crystal Palace. Press Enter to load profile." [ref=e340] [cursor=pointer]:
+              - cell "11 Crystal Palace" [ref=e341]:
+                - generic [ref=e342]: "11"
+                - generic [ref=e343]: CRY
+                - generic [ref=e344]: Crystal Palace
+              - cell "19" [ref=e345]
+              - cell "31" [ref=e346]
+              - cell "30.7" [ref=e347]
+              - cell "36.2" [ref=e348]
+              - cell "-5.6" [ref=e349]
+              - cell "1.01×" [ref=e350]
+              - cell "36%" [ref=e351]
+            - row "West Ham United. Press Enter to load profile." [ref=e352] [cursor=pointer]:
+              - cell "12 West Ham United" [ref=e353]:
+                - generic [ref=e354]: "12"
+                - generic [ref=e355]: WHU
+                - generic [ref=e356]: West Ham United
+              - cell "19" [ref=e357]
+              - cell "29" [ref=e358]
+              - cell "29.3" [ref=e359]
+              - cell "39.8" [ref=e360]
+              - cell "-10.5" [ref=e361]
+              - cell "0.99×" [ref=e362]
+              - cell "36%" [ref=e363]
+      - generic [ref=e364]:
+        - generic [ref=e365]:
+          - img [ref=e367]
+          - generic [ref=e371]:
+            - heading "Key Insights & Analysis" [level=2] [ref=e372]
+            - paragraph [ref=e373]: What the expected-goals model reveals about this season
+        - generic [ref=e374]:
+          - article [ref=e375]:
+            - img [ref=e377]
+            - paragraph [ref=e380]: Best overall performer
+            - paragraph [ref=e381]: Manchester City
+            - paragraph [ref=e382]:
+              - generic [ref=e383]: +0.0 net xG
+            - paragraph [ref=e384]: Creating and defending the highest-quality chances in the league.
+          - article [ref=e385]:
+            - img [ref=e387]
+            - paragraph [ref=e389]: Most prolific attack
+            - paragraph [ref=e390]: Manchester City
+            - paragraph [ref=e391]:
+              - generic [ref=e392]: 0.0 xG created
+            - paragraph [ref=e393]: Generates more high-quality chances than anyone — the league’s sharpest attack.
+          - article [ref=e394]:
+            - img [ref=e396]
+            - paragraph [ref=e399]: Meanest defense
+            - paragraph [ref=e400]: Manchester City
+            - paragraph [ref=e401]:
+              - generic [ref=e402]: 0.0 xG conceded
+            - paragraph [ref=e403]: Concedes the fewest quality chances — the foundation of sustainable results.
+          - article [ref=e404]:
+            - img [ref=e406]
+            - paragraph [ref=e409]: League finishing
+            - paragraph [ref=e410]:
+              - generic [ref=e411]: 0.00× conversion
+            - paragraph [ref=e412]: goals per expected goal
+            - paragraph [ref=e413]: Sides finish close to expectation on average, so quality gaps come from chance creation, not luck.
+        - generic [ref=e414]:
+          - heading "Tactical takeaways" [level=3] [ref=e415]
+          - list [ref=e416]:
+            - listitem [ref=e417]:
+              - strong [ref=e418]: Quality over quantity.
+              - text: Net xG (xG for − xG against) is the strongest predictor of league position and future results.
+            - listitem [ref=e419]:
+              - strong [ref=e420]: Elite chance creation.
+              - text: Top sides generate far more expected goals while suppressing their opponents' chances.
+            - listitem [ref=e421]:
+              - strong [ref=e422]: Conversion is volatile.
+              - text: Even elite teams rarely sustain more than 1.3× their xG — finishing regresses toward the mean.
+            - listitem [ref=e423]:
+              - strong [ref=e424]: Sustainable success.
+              - text: A positive net xG signals durable form; teams scoring above their xG are likely to cool off.
+        - paragraph [ref=e425]: Expected Goals (xG) measures chance quality, not luck. Analysts use it to evaluate tactics, find improvement areas, and forecast future performance.
+  - contentinfo [ref=e426]:
+    - paragraph [ref=e427]: Pitch Intelligence · built for the AQX Sports Analytics Hackathon · xG is a simplified shot-quality proxy; Soccer Vision 3D blends simulated scenarios with real SkillCorner A-League tracking.
