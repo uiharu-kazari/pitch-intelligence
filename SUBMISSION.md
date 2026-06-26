@@ -8,7 +8,7 @@ decisions: the best pass, the pressure, and the open space, for any moment in a 
 
 - **Sport:** Soccer (association football).
 - **Type:** Web application (interactive dashboard + 3D analysis module).
-- **Source:** Open-source (public GitHub repository).
+- **Source:** Open-source — https://github.com/uiharu-kazari/pitch-intelligence (public).
 - **Run:** `npm install && (cd client && npm install) && npm run dev` → open `http://localhost:3000`.
 
 ---
@@ -89,7 +89,7 @@ Three.js + React Three Fiber + drei (3D), a dependency-free hash router, Node/Ex
 - [x] Working prototype (`npm run dev`).
 - [x] Uses sports data to produce analytical insight that solves a sports problem.
 - [x] Short description of solution, features, and actionable impact (this document + `README.md`).
-- [ ] **Public GitHub repository** — push the project to a public repo and add the link here.
+- [x] **Public GitHub repository** — https://github.com/uiharu-kazari/pitch-intelligence
 
 ## How to run
 ```bash
