@@ -4,7 +4,7 @@ A full-stack soccer analytics web app. The dashboard analyzes teams with Expecte
 and the flagship module — **Soccer Vision 3D** — turns tracking data into an interactive 3D
 tactical film-room.
 
-**Live demo:** https://sports-analytics-lyart.vercel.app · **AQX Sports Analytics Hackathon**
+**Live demo:** https://pitch-intelligence-soccer.vercel.app · **AQX Sports Analytics Hackathon**
 
 ---
 

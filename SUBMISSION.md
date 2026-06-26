@@ -8,7 +8,7 @@ decisions: the best pass, the pressure, and the open space, for any moment in a 
 
 - **Sport:** Soccer (association football).
 - **Type:** Web application (interactive dashboard + 3D analysis module).
-- **Live demo:** https://sports-analytics-lyart.vercel.app
+- **Live demo:** https://pitch-intelligence-soccer.vercel.app
 - **Source:** Open-source — https://github.com/uiharu-kazari/pitch-intelligence (public).
 - **Run locally:** `npm install && (cd client && npm install) && npm run dev` → open `http://localhost:3000`.
 
