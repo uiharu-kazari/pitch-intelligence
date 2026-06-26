@@ -12,3 +12,6 @@ yarn-error.log*
 .next/
 out/
 .turbo/
+
+# Claude tooling skill (embedded repo)
+.claude/skills/humanizer/
