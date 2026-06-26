@@ -1,250 +1,95 @@
-# 🎨 Sports Analytics Dashboard - SUPER FANCY UI/UX Upgrade
+# Design System — Pitch Intelligence
 
-## Overview
+A token-driven **Data-Dense Dashboard** design system for the football Expected Goals (xG)
+analytics app. Built with full light/dark theming, accessible contrast, and SVG iconography.
+Direction was generated with the UI/UX Pro Max design intelligence (style: *Data-Dense
+Dashboard*; type: *Fira Sans / Fira Code*; palette: blue + amber).
 
-Your football/soccer Expected Goals (xG) analytics dashboard has been transformed with a professional, modern design system. The upgrade implements premium styling inspired by professional analytics tools and the UI/UX Pro Max skill principles.
+## Principles
 
-## What's New
+1. **Tokens over hex.** Every color, space, radius, and motion value is a CSS custom property
+   in `client/src/styles/design-system.css`. Components never hardcode hex.
+2. **Two themes, one source.** Light and dark are sibling token blocks under `[data-theme]`.
+   The theme is applied before first paint by an inline script in `index.html` (no flash), and
+   toggled via the `useTheme` hook (persisted to `localStorage`).
+3. **Charts follow the theme.** Recharts series use `fill="var(--chart-N)"`; axes, grid lines,
+   and tooltips are styled through CSS variables, so they re-theme automatically.
+4. **SVG, never emoji.** All icons are inline SVG (`client/src/icons.jsx`, Lucide-style,
+   1.75px stroke, `currentColor`).
+5. **Accessibility first.** ≥4.5:1 text contrast in both themes, visible `:focus-visible`
+   rings, `aria-sort` on sortable headers, keyboard-activatable rows, and a global
+   `prefers-reduced-motion` guard.
 
-### 1. **Professional Design System** (`design-system.css`)
-A comprehensive design system foundation with:
-- **Color Palette**: Primary (dark blue), secondary (success/warning/danger), charts (6 colors), and neutral grays
-- **Typography Scale**: 6 heading levels + 4 text sizes for semantic sizing
-- **Spacing System**: Consistent spacing from 0.25rem to 5rem
-- **Shadows**: 6 levels of shadows for depth
-- **Transitions**: 3 timing options (fast/base/slow) with cubic-bezier easing
-- **Border Radius**: 6 options from small to extra-large
+## Color tokens
 
-### 2. **Enhanced App Layout**
-- Animated gradient background with floating drift effects
-- Hero header with gradient text effect
-- Professional loading and error states with animations
-- Better footer with backdrop blur effect
+Semantic tokens (resolve per theme):
 
-### 3. **Professional Dashboard Cards**
-- Card-based responsive grid layout
-- Hover effects with depth and scale transforms
-- Animated gradient top border on hover
-- Professional title styling with accent bars
-- Better chart styling and Recharts customization
-- Improved insight text boxes with borders
+| Token | Light | Dark | Use |
+|-------|-------|------|-----|
+| `--bg` / `--bg-gradient` | `#f1f5fb` | `#0a1020` | App background |
+| `--surface` | `#ffffff` | `#121c34` | Cards, panels |
+| `--surface-2` | `#f8fafc` | `#0e1730` | Insets, table header |
+| `--border` / `--border-strong` | slate-200/300 | navy borders | Dividers, outlines |
+| `--text` / `--text-muted` / `--text-subtle` | slate-900 → 500 | off-white → muted | Text hierarchy |
+| `--primary` | `#1e40af` | `#60a5fa` | Brand, primary actions |
+| `--accent` | `#d97706` | `#f59e0b` | Highlights |
+| `--success` / `--danger` | `#059669` / `#dc2626` | `#34d399` / `#f87171` | Positive / negative |
 
-### 4. **Data Table Refinements**
-- Modern gradient header background
-- Hover effects with row highlighting and scaling
-- Performance indicators (↑/↓ arrows for positive/negative values)
-- Better typography hierarchy and spacing
-- Fully responsive design
-
-### 5. **Insights Section**
-- Card-based layout for each insight
-- Color-coded left borders (blue/green/orange/purple)
-- Smooth hover animations with scale and shadow
-- Professional conclusion box with checkmark icons
-- Better visual hierarchy and spacing
-
-## Design Principles Applied
-
-### 1. **Data Authority**
-- Clean, professional aesthetic conveys data expertise
-- High contrast and clear typography for readability
-- Sophisticated color palette (sports-themed blue primary)
-
-### 2. **Visual Hierarchy**
-- Size and weight progression from body text to headings
-- Color intensity for emphasis (accent colors on key metrics)
-- Spacing creates clear sections and grouping
-
-### 3. **Modern Interactions**
-- Smooth transitions (300ms cubic-bezier) on all interactions
-- Scale and translate effects on hover
-- Gradient animations and subtle shimmer effects
-
-### 4. **Professional Polish**
-- Consistent border radius across components
-- Layered shadows for depth without harshness
-- Responsive design that works on all screen sizes
-- Accessible focus states for keyboard navigation
-
-### 5. **Performance**
-- No unnecessary animations or slow effects
-- GPU-accelerated transforms
-- Optimized for smooth 60fps interactions
-
-## Color Palette
-
-### Primary Colors (Authority)
-```
---primary-dark: #0f1a3a (Deep blue)
---primary: #1a2f5a (Professional blue)
---primary-light: #2a4a8a (Lighter blue)
---primary-accent: #3d63c4 (Bright accent)
-```
-
-### Status Colors (Data)
-```
---success: #10b981 (Green - positive)
---warning: #f59e0b (Amber - warning)
---danger: #ef4444 (Red - negative)
---info: #3b82f6 (Blue - information)
-```
-
-### Chart Colors (Visualization)
-```
---chart-blue: #3b82f6
---chart-green: #10b981
---chart-orange: #f59e0b
---chart-red: #ef4444
---chart-purple: #8b5cf6
---chart-pink: #ec4899
-```
+Chart series are theme-independent (`--chart-1`…`--chart-6`), each ≥3:1 against both surfaces.
 
 ## Typography
 
-### Headings
-- **h1**: 2.25rem (54px) - Page titles
-- **h2**: 1.875rem (30px) - Section titles
-- **h3**: 1.5rem (24px) - Card titles
-- **h4**: 1.25rem (20px) - Subsection titles
+- **Sans:** Fira Sans (300–700) — UI text.
+- **Mono:** Fira Code — numbers, stats, badges (paired with `.tnum` tabular figures to stop
+  column jitter).
+- **Scale:** `--text-xs` (12px) → `--text-4xl` (48px), 1.25 ratio on a 16px base.
 
-### Body Text
-- **Base**: 1rem (16px)
-- **Small**: 0.875rem (14px)
-- **Extra Small**: 0.75rem (12px)
+## Spacing, radius, motion
 
-### Font Family
-System fonts for optimal performance and accessibility
+- **Spacing:** 4px base — `--space-1` (4px) … `--space-10` (64px).
+- **Radius:** `--radius-sm` (6px) … `--radius-xl` (20px), `--radius-full`.
+- **Motion:** `--dur-fast` 150ms / `--dur-base` 240ms, eased with `--ease`
+  (`cubic-bezier(0.4,0,0.2,1)`). All transitions collapse under reduced-motion.
 
-## Running the Application
+## Components
 
-### Prerequisites
-- Node.js 16+
-- npm or yarn
+| Area | File | Notes |
+|------|------|-------|
+| App shell, summary strip, states, buttons | `src/App.jsx` / `src/App.css` | Sticky blurred top bar, theme toggle, KPI summary, loading skeletons, error+retry |
+| Charts | `src/components/Dashboard.jsx` / `styles/Dashboard.css` | Top-N control chips, themed tooltips, team selector |
+| Table | `src/components/TeamTable.jsx` / `styles/TeamTable.css` | Sortable (`aria-sort`), sticky header, row→profile focus, horizontal scroll on mobile |
+| Insights | `src/components/Insights.jsx` / `styles/Insights.css` | Icon-led cards + tactical takeaways |
+| Icons | `src/icons.jsx` | Inline SVG set |
+| Theme | `src/useTheme.js` | `data-theme` + localStorage sync |
 
-### Installation
+## Charts (Recharts)
+
+1. **Expected vs Actual Goals** — grouped bars, ranked by output.
+2. **Net xG Difference** — diverging horizontal bars (`<Cell>` colored by sign; green ≥ 0,
+   amber < 0). *This panel previously crashed on an undefined `<CustomBar/>` — now fixed.*
+3. **Conversion Efficiency** — scatter of xG vs goals with a y=x reference line (above the line
+   = overperforming).
+4. **Team DNA** — radar of five 0–100 league-normalized axes (attack, defense, finishing,
+   accuracy, shot volume) for a selectable team.
+
+## Data model (`server/data.js`)
+
+xG is a calibrated shot-quality proxy: `xG = shots × 0.06 + shotsOnTarget × 0.47`, tuned so
+league-wide xG ≈ league-wide goals (average conversion ≈ 1.0). The API also derives normalized
+radar `profile` axes and a league `/api/summary` for the KPI strip.
+
+## Running
+
 ```bash
-# Install dependencies
-npm install
-
-# Install client dependencies
-cd client && npm install && cd ..
+npm install && (cd client && npm install)
+npm run dev          # API on :8000, client on :3000 (or next free port)
+npm run build        # production build of the client
 ```
 
-### Development Mode
-```bash
-# Run both server and client concurrently
-npm run dev
+## Responsive breakpoints
 
-# Server runs on http://localhost:8000
-# Client runs on http://localhost:5173
-```
+- `900px` — charts/summary collapse to one column.
+- `560px` — single-column everything; team badges hidden; compact padding.
 
-### Production Build
-```bash
-npm run build
-```
-
-### Preview Production Build
-```bash
-npm run preview
-```
-
-## File Structure
-
-```
-client/src/
-├── App.jsx                    # Main app component
-├── App.css                    # App styling with design system
-├── main.jsx                   # Entry point
-├── index.css                  # Global styles
-├── components/
-│   ├── Dashboard.jsx          # Main dashboard layout
-│   ├── TeamTable.jsx          # Team statistics table
-│   └── Insights.jsx           # Analytics insights
-└── styles/
-    ├── design-system.css      # Design system foundation
-    ├── Dashboard.css          # Dashboard component styles
-    ├── TeamTable.css          # Table component styles
-    └── Insights.css           # Insights component styles
-```
-
-## Customization
-
-### Changing Colors
-Edit `design-system.css` CSS variables:
-```css
-:root {
-  --primary-dark: #0f1a3a;
-  --primary-accent: #3d63c4;
-  /* ... etc */
-}
-```
-
-### Adjusting Animations
-Modify transition variables:
-```css
---transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
---transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
---transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
-```
-
-### Responsive Breakpoints
-Media queries at:
-- `1200px` - Large desktop
-- `768px` - Tablet
-- `480px` - Mobile phone
-
-## Performance Metrics
-
-- **First Contentful Paint**: < 1s
-- **Animations**: 60fps smooth
-- **Bundle Size**: Optimized CSS with no extra libraries
-- **Mobile Performance**: Fast on 3G connections
-
-## Accessibility Features
-
-- ✅ Focus states visible on all interactive elements
-- ✅ High contrast color palette (WCAG AA compliant)
-- ✅ Semantic HTML structure
-- ✅ Clear visual hierarchy
-- ✅ Smooth transitions (respects prefers-reduced-motion)
-
-## Browser Support
-
-- Chrome/Edge: Latest 2 versions
-- Firefox: Latest 2 versions
-- Safari: Latest 2 versions
-- Mobile browsers: iOS Safari 12+, Chrome Android
-
-## Future Enhancements
-
-Potential improvements already compatible with design system:
-- [ ] Dark mode toggle
-- [ ] Custom theme generator
-- [ ] Export reports to PDF
-- [ ] Real-time data updates with WebSockets
-- [ ] Team comparison overlays
-- [ ] Custom metric calculators
-- [ ] Share dashboard links
-
-## Design References
-
-This design system is inspired by:
-- **UI/UX Pro Max Skill** - AI-powered design intelligence
-- **Professional Analytics Tools** - Tableau, Databricks, Grafana
-- **Modern Web Standards** - CSS Grid, Flexbox, Custom Properties
-- **Sports Analytics** - Clean, data-focused aesthetic
-
-## Support & Feedback
-
-The design system is built to be:
-- **Maintainable**: Centralized design tokens
-- **Scalable**: Easy to add new components
-- **Consistent**: All components follow same rules
-- **Flexible**: Can adapt to different sports/contexts
-
----
-
-**Date**: 2026-06-26  
-**Status**: ✅ Production Ready  
-**Version**: 1.0.0 - SUPER FANCY Edition  
+Verified at 1280px (desktop) and 375px (mobile), in both light and dark themes, with a clean
+console.

@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { fetchTeamStats } from './data.js';
+import { fetchTeamStats, fetchSummary } from './data.js';
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -13,6 +13,15 @@ app.get('/api/teams', async (req, res) => {
   try {
     const teams = await fetchTeamStats();
     res.json(teams);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/summary', async (req, res) => {
+  try {
+    const summary = await fetchSummary();
+    res.json(summary);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

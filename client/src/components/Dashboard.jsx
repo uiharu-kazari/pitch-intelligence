@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import {
   BarChart,
   Bar,
+  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -10,149 +11,296 @@ import {
   ResponsiveContainer,
   ScatterChart,
   Scatter,
-  LineChart,
-  Line,
+  ReferenceLine,
+  ZAxis,
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
 } from 'recharts'
 import TeamTable from './TeamTable'
 import Insights from './Insights'
+import { TrendUpIcon, ScaleIcon, GaugeIcon, SparkIcon } from '../icons'
+import { useScrollReveal, prefersReducedMotion } from '../motion'
 import '../styles/Dashboard.css'
 
+const AXIS = { stroke: 'var(--border-strong)' }
+const shortName = (name) => name.split(' ').slice(0, 2).join(' ')
+
 export default function Dashboard({ teams }) {
-  const [selectedTeam, setSelectedTeam] = useState(null)
+  const [topN, setTopN] = useState(8)
+  const [focusId, setFocusId] = useState(teams[0]?.id ?? null)
 
-  // Sort teams by xG difference for xG efficiency chart
-  const sortedByXGDiff = [...teams].sort((a, b) => b.stats.xGDiff - a.stats.xGDiff)
+  // One decision for the whole dashboard: animate charts unless motion is reduced.
+  const animate = !prefersReducedMotion()
+  const animProps = { isAnimationActive: animate, animationDuration: 700, animationEasing: 'ease-out' }
 
-  // Chart data: xG vs Actual Goals
-  const chartData = teams
-    .sort((a, b) => b.stats.goalsFor - a.stats.goalsFor)
-    .slice(0, 8)
-    .map(team => ({
-      name: team.name.split(' ').slice(0, 2).join(' '),
-      actual: team.goalsFor,
-      expected: team.stats.xGFor,
-      diff: team.goalsFor - team.stats.xGFor,
-    }))
+  const byXGDiff = useMemo(
+    () => [...teams].sort((a, b) => b.stats.xGDiff - a.stats.xGDiff),
+    [teams]
+  )
 
-  // Efficiency scatter plot: xG vs Goals (showing conversion efficiency)
-  const efficiencyData = teams.map(team => ({
-    name: team.name,
-    xGFor: team.stats.xGFor,
-    goalsFor: team.goalsFor,
-    efficiency: parseFloat((team.goalsFor / team.stats.xGFor).toFixed(2)),
-  }))
+  const goalsData = useMemo(
+    () =>
+      [...teams]
+        .sort((a, b) => b.goalsFor - a.goalsFor)
+        .slice(0, topN)
+        .map((t) => ({ name: shortName(t.name), actual: t.goalsFor, expected: t.stats.xGFor })),
+    [teams, topN]
+  )
 
-  // Performance trend data (simulated over a season)
-  const trendData = ['Week 5', 'Week 10', 'Week 15', 'Week 20'].map((week, idx) => ({
-    week,
-    'Man City': [12 + idx * 2, 15 + idx * 2.5],
-    'Liverpool': [10 + idx * 1.8, 13 + idx * 2.2],
-    'Arsenal': [9 + idx * 1.5, 11 + idx * 1.8],
-  }))
+  const diffData = useMemo(
+    () =>
+      byXGDiff.slice(0, topN).map((t) => ({ name: shortName(t.name), xGDiff: t.stats.xGDiff })),
+    [byXGDiff, topN]
+  )
+
+  const efficiencyData = useMemo(
+    () =>
+      teams.map((t) => ({ name: shortName(t.name), xGFor: t.stats.xGFor, goalsFor: t.goalsFor })),
+    [teams]
+  )
+  const effMax = Math.ceil(Math.max(...efficiencyData.map((d) => Math.max(d.xGFor, d.goalsFor))) + 4)
+
+  const focusTeam = teams.find((t) => t.id === focusId) ?? teams[0]
+  const radarData = useMemo(() => {
+    if (!focusTeam) return []
+    const labels = {
+      attack: 'Attack',
+      defense: 'Defense',
+      finishing: 'Finishing',
+      accuracy: 'Accuracy',
+      volume: 'Shot Volume',
+    }
+    return Object.entries(labels).map(([key, label]) => ({ axis: label, value: focusTeam.profile[key] }))
+  }, [focusTeam])
 
   return (
     <div className="dashboard">
-      <div className="dashboard-grid">
-        {/* xG vs Actual Goals */}
-        <div className="chart-card">
-          <h2>Expected vs Actual Goals</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 60, left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} stroke="#6b7280" />
-              <YAxis stroke="#6b7280" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#ffffff',
-                  border: '2px solid #3b82f6',
-                  borderRadius: '8px',
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-                }}
-                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
-              />
-              <Legend />
-              <Bar dataKey="expected" fill="#3b82f6" name="Expected Goals (xG)" radius={[8, 8, 0, 0]} />
-              <Bar dataKey="actual" fill="#10b981" name="Actual Goals" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-          <p className="insight-text">
-            This chart shows how teams perform relative to their expected goals. Teams with higher actual goals are overperforming their xG.
-          </p>
-        </div>
-
-        {/* Efficiency Scatter Plot */}
-        <div className="chart-card">
-          <h2>Conversion Efficiency</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <ScatterChart margin={{ top: 20, right: 20, bottom: 60, left: 60 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="xGFor" name="Expected Goals (xG)" stroke="#6b7280" />
-              <YAxis dataKey="goalsFor" name="Actual Goals Scored" stroke="#6b7280" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#ffffff',
-                  border: '2px solid #3b82f6',
-                  borderRadius: '8px',
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-                }}
-                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
-              />
-              <Scatter name="Teams" data={efficiencyData} fill="#f59e0b" />
-            </ScatterChart>
-          </ResponsiveContainer>
-          <p className="insight-text">
-            Teams higher on the chart score more goals. Teams to the right create better chances (higher xG). Points above the diagonal are overperforming.
-          </p>
-        </div>
-
-        {/* xG Difference (Performance Quality) */}
-        <div className="chart-card">
-          <h2>Net xG Difference</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart
-              data={sortedByXGDiff.slice(0, 8).map(t => ({
-                name: t.name.split(' ').slice(0, 2).join(' '),
-                xGDiff: t.stats.xGDiff,
-              }))}
-              layout="vertical"
-              margin={{ top: 5, right: 20, bottom: 5, left: 100 }}
+      <div className="dashboard__controls">
+        <h2 className="dashboard__heading">Performance Breakdown</h2>
+        <div className="control-group" role="group" aria-label="Number of teams to show">
+          <span className="control-group__label">Show</span>
+          {[6, 8, 12].map((n) => (
+            <button
+              key={n}
+              type="button"
+              className={`chip ${topN === n ? 'chip--active' : ''}`}
+              aria-pressed={topN === n}
+              onClick={() => setTopN(n)}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis type="number" stroke="#6b7280" />
-              <YAxis dataKey="name" type="category" width={95} stroke="#6b7280" />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#ffffff',
-                  border: '2px solid #3b82f6',
-                  borderRadius: '8px',
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-                }}
-                labelStyle={{ color: '#0f1a3a', fontWeight: 'bold' }}
-              />
-              <Bar
-                dataKey="xGDiff"
-                fill="#3b82f6"
-                shape={<CustomBar />}
-                name="xG Difference"
-                radius={[0, 8, 8, 0]}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-          <p className="insight-text">
-            Positive xGDiff indicates teams are creating and conceding quality chances favorably. A strong
-            predictor of future performance.
-          </p>
-        </div>
-
-        {/* Stats Table */}
-        <div className="table-card">
-          <h2>Team Statistics</h2>
-          <TeamTable teams={teams} selectedTeam={selectedTeam} onSelectTeam={setSelectedTeam} />
+              Top {n}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Key Insights */}
+      <div className="dashboard__grid">
+        <ChartPanel
+          icon={<TrendUpIcon size={18} />}
+          title="Expected vs Actual Goals"
+          subtitle="Bars above their xG twin are overperforming their chances"
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={goalsData} margin={{ top: 8, right: 12, bottom: 48, left: -8 }} barGap={2}>
+              <defs>
+                <linearGradient id="grad-expected" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--chart-1)" stopOpacity="1" />
+                  <stop offset="100%" stopColor="var(--chart-1)" stopOpacity="0.45" />
+                </linearGradient>
+                <linearGradient id="grad-actual" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="var(--chart-2)" stopOpacity="1" />
+                  <stop offset="100%" stopColor="var(--chart-2)" stopOpacity="0.45" />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis dataKey="name" angle={-35} textAnchor="end" height={64} {...AXIS} interval={0} />
+              <YAxis {...AXIS} />
+              <Tooltip cursor={{ fill: 'var(--surface-hover)' }} content={<ThemedTooltip unit="goals" />} />
+              <Legend wrapperStyle={{ paddingTop: 8 }} />
+              <Bar dataKey="expected" name="Expected (xG)" fill="url(#grad-expected)" radius={[5, 5, 0, 0]} {...animProps} />
+              <Bar dataKey="actual" name="Actual" fill="url(#grad-actual)" radius={[5, 5, 0, 0]} {...animProps} />
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartPanel>
+
+        <ChartPanel
+          icon={<ScaleIcon size={18} />}
+          title="Net xG Difference"
+          subtitle="xG created minus xG conceded — the strongest signal of true quality"
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={diffData} layout="vertical" margin={{ top: 8, right: 16, bottom: 8, left: 12 }}>
+              <defs>
+                <linearGradient id="grad-pos" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="var(--chart-2)" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="var(--chart-2)" stopOpacity="1" />
+                </linearGradient>
+                <linearGradient id="grad-neg" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="var(--chart-3)" stopOpacity="1" />
+                  <stop offset="100%" stopColor="var(--chart-3)" stopOpacity="0.5" />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+              <XAxis type="number" {...AXIS} />
+              <YAxis dataKey="name" type="category" width={84} {...AXIS} />
+              <Tooltip cursor={{ fill: 'var(--surface-hover)' }} content={<ThemedTooltip unit="net xG" />} />
+              <ReferenceLine x={0} stroke="var(--border-strong)" />
+              <Bar dataKey="xGDiff" name="Net xG" radius={[0, 5, 5, 0]} {...animProps}>
+                {diffData.map((d, i) => (
+                  <Cell key={i} fill={d.xGDiff >= 0 ? 'url(#grad-pos)' : 'url(#grad-neg)'} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartPanel>
+
+        <ChartPanel
+          icon={<GaugeIcon size={18} />}
+          title="Conversion Efficiency"
+          subtitle="Points above the dashed line score more than their chances suggest"
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <ScatterChart margin={{ top: 8, right: 16, bottom: 40, left: -8 }}>
+              <defs>
+                <radialGradient id="grad-point" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--chart-4)" stopOpacity="1" />
+                  <stop offset="100%" stopColor="var(--chart-4)" stopOpacity="0.55" />
+                </radialGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis
+                type="number"
+                dataKey="xGFor"
+                name="Expected Goals"
+                domain={[0, effMax]}
+                {...AXIS}
+                label={{ value: 'Expected Goals (xG)', position: 'bottom', offset: 16, fill: 'var(--text-subtle)', fontSize: 12 }}
+              />
+              <YAxis type="number" dataKey="goalsFor" name="Actual Goals" domain={[0, effMax]} {...AXIS} />
+              <ZAxis range={[110, 110]} />
+              <Tooltip cursor={{ strokeDasharray: '3 3' }} content={<ScatterTooltip />} />
+              <ReferenceLine
+                segment={[{ x: 0, y: 0 }, { x: effMax, y: effMax }]}
+                stroke="var(--text-subtle)"
+                strokeDasharray="5 5"
+              />
+              <Scatter name="Teams" data={efficiencyData} fill="url(#grad-point)" {...animProps} />
+            </ScatterChart>
+          </ResponsiveContainer>
+        </ChartPanel>
+
+        <ChartPanel
+          icon={<SparkIcon size={18} />}
+          title="Team DNA"
+          subtitle="Each axis is scaled 0–100 against the rest of the league"
+          action={
+            <label className="select">
+              <span className="sr-only">Select team for profile</span>
+              <select value={focusTeam?.id} onChange={(e) => setFocusId(Number(e.target.value))}>
+                {teams.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          }
+        >
+          <ResponsiveContainer width="100%" height={300}>
+            <RadarChart data={radarData} margin={{ top: 8, right: 24, bottom: 8, left: 24 }}>
+              <defs>
+                <radialGradient id="grad-radar" cx="50%" cy="50%" r="65%">
+                  <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.5" />
+                  <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.12" />
+                </radialGradient>
+              </defs>
+              <PolarGrid stroke="var(--grid-line)" />
+              <PolarAngleAxis dataKey="axis" tick={{ fill: 'var(--text-muted)', fontSize: 12 }} />
+              <PolarRadiusAxis domain={[0, 100]} tick={{ fill: 'var(--text-subtle)', fontSize: 10 }} axisLine={false} />
+              <Radar
+                name={focusTeam?.name}
+                dataKey="value"
+                stroke="var(--primary)"
+                strokeWidth={2}
+                fill="url(#grad-radar)"
+                {...animProps}
+              />
+              <Tooltip content={<ThemedTooltip unit="/ 100" />} />
+            </RadarChart>
+          </ResponsiveContainer>
+        </ChartPanel>
+      </div>
+
+      <TeamTable teams={teams} focusId={focusId} onFocus={setFocusId} />
+
       <Insights teams={teams} />
+    </div>
+  )
+}
+
+function ChartPanel({ icon, title, subtitle, action, children }) {
+  const [ref, visible] = useScrollReveal()
+  return (
+    <section ref={ref} className={`panel glass spotlight reveal ${visible ? 'is-visible' : ''}`}>
+      <header className="panel__head">
+        <div className="panel__title">
+          <span className="panel__icon">{icon}</span>
+          <div>
+            <h3>{title}</h3>
+            {subtitle && <p className="panel__sub">{subtitle}</p>}
+          </div>
+        </div>
+        {action}
+      </header>
+      <div className="panel__chart">{children}</div>
+    </section>
+  )
+}
+
+function ThemedTooltip({ active, payload, label, unit }) {
+  if (!active || !payload?.length) return null
+  return (
+    <div className="tooltip glass">
+      {label && <p className="tooltip__label">{label}</p>}
+      {payload.map((p) => (
+        <p key={p.name} className="tooltip__row">
+          <span className="tooltip__dot" style={{ background: p.color || p.fill }} />
+          <span className="tooltip__name">{p.name}</span>
+          <span className="tooltip__val tnum">
+            {typeof p.value === 'number' ? p.value.toFixed(1) : p.value}
+            {unit ? ` ${unit}` : ''}
+          </span>
+        </p>
+      ))}
+    </div>
+  )
+}
+
+function ScatterTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null
+  const d = payload[0].payload
+  const delta = (d.goalsFor - d.xGFor).toFixed(1)
+  const over = d.goalsFor >= d.xGFor
+  return (
+    <div className="tooltip glass">
+      <p className="tooltip__label">{d.name}</p>
+      <p className="tooltip__row">
+        <span className="tooltip__name">Expected</span>
+        <span className="tooltip__val tnum">{d.xGFor.toFixed(1)}</span>
+      </p>
+      <p className="tooltip__row">
+        <span className="tooltip__name">Actual</span>
+        <span className="tooltip__val tnum">{d.goalsFor}</span>
+      </p>
+      <p className={`tooltip__row tooltip__row--${over ? 'pos' : 'neg'}`}>
+        <span className="tooltip__name">{over ? 'Overperforming' : 'Underperforming'}</span>
+        <span className="tooltip__val tnum">
+          {over ? '+' : ''}
+          {delta}
+        </span>
+      </p>
     </div>
   )
 }

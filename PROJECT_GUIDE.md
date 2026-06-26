@@ -1,4 +1,4 @@
-# Football Analytics Dashboard - Project Guide
+# Pitch Intelligence - Project Guide
 
 ## Project Summary
 

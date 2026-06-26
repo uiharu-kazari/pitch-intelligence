@@ -1,88 +1,105 @@
-# AQX Sports Analytics Hackathon Submission
+# AQX Sports Analytics Hackathon — Submission
 
-## Project: Football Analytics - Expected Goals (xG) Dashboard
+## Project: Pitch Intelligence
 
-### Overview
+**Soccer analytics in 3D** — an Expected Goals (xG) analytics dashboard plus **Soccer Vision 3D**,
+an interactive 3D tactical "film-room" that turns player-tracking data into clear, actionable
+decisions: the best pass, the pressure, and the open space, for any moment in a possession.
 
-This is a data-driven sports analytics project analyzing football/soccer using Expected Goals (xG) metrics. Expected Goals is a fundamental metric in modern football analytics that measures the quality of chances created and conceded, independent of actual scoring.
+- **Sport:** Soccer (association football).
+- **Type:** Web application (interactive dashboard + 3D analysis module).
+- **Source:** Open-source (public GitHub repository).
+- **Run:** `npm install && (cd client && npm install) && npm run dev` → open `http://localhost:3000`.
 
-### What It Does
+---
 
-The dashboard provides:
+## The problem it solves
 
-1. **Expected vs Actual Goals Analysis** - Visualizes the gap between expected goals (xG) and actual goals scored
-2. **Conversion Efficiency Metrics** - Shows which teams create better chances and convert them more effectively
-3. **Net xG Difference** - Identifies teams creating high-quality chances while limiting opponents (strongest predictor of success)
-4. **Team Statistics Table** - Sortable performance data with key metrics
-5. **Actionable Insights** - Analysis of overperformers, underperformers, and strategic recommendations
+Most soccer analytics stop at tables and totals. A coach watching a clip wants to know: *was the
+right pass taken? where was the pressure? what space was open?* Pitch Intelligence answers that —
+it replays a possession on a 3D pitch and, for every frame, scores each passing option and
+highlights the best one, with a plain-English reason.
 
-### Features
+## Two parts
 
-- **Interactive Visualizations**: Bar charts, scatter plots, and trend analysis using Recharts
-- **Statistical Analysis**: xG calculation models based on shot quality and efficiency
-- **Practical Application**: Insights directly applicable to coaches, analysts, and team management
-- **Clear Data Presentation**: Professional dashboard with intuitive charts and explanations
+### 1. Soccer Vision 3D (flagship) — tactical decision analysis on tracking data
+- Replays attacking sequences on a 3D pitch (players, ball, movement trails, completed passes).
+- For each moment, computes per-candidate **attacking-threat** (0–100) and **pass-risk** (100−threat)
+  and highlights the **recommended receiver**, with a written explanation
+  (*"Winger #11 is the best option — the lane is mostly clear, 22 m of separation, advances 17 m
+  into the final third"*).
+- On-pitch overlays: passing lanes graded **green / yellow / red**, defender **pressure zones**,
+  **open-space** glow, recommended-receiver ring.
+- **Real and simulated data:** three authored teaching scenarios *plus* a real broadcast-tracking
+  possession from **SkillCorner Open Data (A-League 2024/25, MIT)** — the same analytics run on
+  genuine player positions (interpolated to fill sparse frames).
 
-### Technical Stack
+### 2. xG dashboard — team-quality analytics
+- Expected vs Actual Goals, Conversion Efficiency, **Net xG Difference**, a Team DNA radar, a
+  sortable stats table, and plain-English insights (best attack, meanest defense, league finishing).
 
-- **Frontend**: React + Vite + Recharts (data visualization)
-- **Backend**: Node.js + Express (lightweight API)
-- **Data**: Real 2024-25 Premier League team statistics with calculated xG metrics
+---
 
-### Judging Criteria Addressed
+## How it maps to the judging criteria
 
-**1. Analytical Insight** ✅
-- Implements proper xG calculation methodology
-- Identifies underperformers and overperformers
-- Demonstrates understanding of chance quality vs luck
-- Provides statistical depth beyond surface-level stats
+### Analytical Insight
+- **Beyond surface stats:** it doesn't just total goals — it evaluates *decisions*. Per frame it
+  computes nearest-defender distance, defensive pressure, passing-lane openness, receiver space,
+  forward progress, and centrality, then ranks every passing option.
+- **Transparent, auditable method (not a black box):** the attacking-threat score is a published,
+  weighted formula shown *in the UI* —
+  `100 × (0.35·forward + 0.25·space + 0.20·lane + 0.10·centrality + 0.10·(1−pressure))`.
+  Forward progress is **signed**, so safe backward passes can't masquerade as threats.
+- **Validated on real tracking data**, not only synthetic — and the three simulated scenarios are
+  asserted by a test (`scripts/sanity-check.mjs`) to produce their intended recommendation.
+- **Honest about modeling:** the dashboard's xG is a deliberately simple, calibrated shot-quality
+  proxy (`xG = 0.06·shots + 0.47·shots-on-target`, tuned so league xG ≈ league goals), and the
+  threat weights are heuristic. We prioritized **explainability and correctness** over an opaque
+  model — every number can be traced to its inputs.
 
-**2. Practical Application** ✅
-- Directly useful for coaches analyzing team performance
-- Identifies teams needing tactical adjustment or finishing improvement
-- Helps predict future performance based on quality of play
-- Actionable recommendations for improvement
+### Practical Application
+- **For coaches:** a film-room view — replay a possession and see whether the best pass was taken,
+  where pressure built, and what space opened.
+- **For players/analysts:** read passing lanes, defensive pressure, and run timing directly.
+- **For scouting/front office:** the dashboard's net-xG (the strongest predictor of results) ranks
+  true team quality and separates performance from finishing variance.
 
-**3. Data Presentation** ✅
-- Professional, interactive visualizations
-- Clear explanations of each metric
-- Multiple chart types for different analytical perspectives
-- Accessible to non-technical audience (fans, media, management)
+### Data Presentation
+- Premium, responsive **light/dark dashboard**; an interactive, orbitable **3D scene** with
+  top-down and reset cameras and full playback (play/pause, speed, timeline scrubber).
+- **Made for non-technical audiences** (the stated criterion): plain-English explanations, a color
+  legend, and the scoring formula visible on screen.
+- **Accessible:** WCAG-AA contrast in both themes, visible focus states, `aria-sort` on tables,
+  keyboard-activatable rows, and full `prefers-reduced-motion` support.
 
-### Key Insights from Data
+---
 
-- **Manchester City** leads in xG Difference (+18.3), showing dominant attacking play while maintaining defensive control
-- **Arsenal** shows slight underperformance in conversion, creating quality chances but not finishing as efficiently as expected
-- **Liverpool** demonstrates strong balance between chance creation and defensive solidity
-- xG Difference is the strongest predictor of league position and future success
+## Data & sources
+- **Soccer Vision 3D:** real broadcast tracking from [SkillCorner Open Data](https://github.com/SkillCorner/opendata)
+  (A-League 2024/25, MIT) for the real scenario; clearly-labeled **simulated** tracking for the
+  three teaching scenarios.
+- **Dashboard:** a sample dataset of Premier League team counting-stats with a transparent xG proxy
+  derived from shot volume and accuracy. Labeled as sample data in the UI.
 
-### How to Run
+## Tech
+React 18 + Vite, vanilla-CSS design tokens (glass light/dark theme), Recharts (2D charts),
+Three.js + React Three Fiber + drei (3D), a dependency-free hash router, Node/Express API.
 
+## Submission checklist
+- [x] Working prototype (`npm run dev`).
+- [x] Uses sports data to produce analytical insight that solves a sports problem.
+- [x] Short description of solution, features, and actionable impact (this document + `README.md`).
+- [ ] **Public GitHub repository** — push the project to a public repo and add the link here.
+
+## How to run
 ```bash
-# Install dependencies
 npm install
-cd client && npm install
+cd client && npm install && cd ..
+npm run dev          # API on :8000, client on :3000 (or next free port)
+# open the printed URL
 
-# Start development server (runs both backend and frontend)
-npm run dev
+# Tests (analytics + data adapter)
+cd client
+node scripts/sanity-check.mjs                       # analytics scenario assertions
+node --test scripts/import-skillcorner.test.mjs     # SkillCorner adapter unit tests
 ```
-
-The dashboard will open at `http://localhost:3000`
-
-### Submission Contents
-
-- **Public GitHub Repository**: All source code available
-- **Working Prototype**: Fully functional dashboard with data visualization
-- **Data Analysis**: Real team statistics with analytical calculations
-- **Professional Presentation**: Clean UI with educational insights
-
-### Why This Matters
-
-Expected Goals analysis is used by:
-- Elite football clubs (Premier League, Champions League teams)
-- Sports journalists and media outlets
-- Fantasy football platforms
-- Betting analytics services
-- Football academies and coaching development
-
-This project demonstrates the practical power of analytics in sports decision-making.

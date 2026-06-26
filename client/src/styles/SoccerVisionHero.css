@@ -1,0 +1,202 @@
+/* Soccer Vision 3D homepage hero — flagship promotion card. */
+
+.sv-hero {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: var(--space-6);
+  align-items: center;
+  padding: var(--space-6);
+  overflow: hidden;
+  transition: opacity var(--dur-slow) var(--ease-premium),
+    transform var(--dur-slow) var(--ease-premium), box-shadow var(--dur-base) var(--ease);
+}
+.sv-hero:hover {
+  box-shadow: var(--glow-primary), var(--elevation-3);
+}
+
+.sv-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.sv-hero__title {
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  margin-top: var(--space-3);
+}
+.sv-hero__3d {
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sv-hero__subtitle {
+  font-size: var(--text-lg);
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+}
+
+.sv-hero__why {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-normal);
+  margin-top: var(--space-4);
+  max-width: 56ch;
+}
+.sv-hero__why strong {
+  color: var(--text);
+}
+
+.sv-hero__points {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2) var(--space-4);
+  margin-top: var(--space-4);
+}
+.sv-hero__points li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  line-height: var(--leading-snug);
+}
+.sv-hero__dot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: 0.5em;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.sv-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+.sv-hero__cta {
+  height: 48px;
+  padding: 0 var(--space-6);
+  font-size: var(--text-base);
+}
+.sv-hero__note {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+}
+
+/* Visual teaser (clickable) */
+.sv-hero__visual {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: #0a2c20;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: var(--elevation-2);
+  transition: transform var(--dur-base) var(--ease-premium), box-shadow var(--dur-base) var(--ease);
+}
+.sv-hero__visual:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--glow-primary), var(--elevation-3);
+}
+.sv-mini {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* The recommended lane streams a dashed "tracer"; the ring pulses; the open space breathes. */
+.sv-mini__lane {
+  stroke-dasharray: 10 8;
+  animation: lane-flow 1s linear infinite;
+}
+@keyframes lane-flow {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+.sv-mini__ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ring-pulse 2s var(--ease) infinite;
+}
+@keyframes ring-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0.6;
+  }
+}
+.sv-mini__space {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: space-breathe 3.2s var(--ease) infinite;
+}
+@keyframes space-breathe {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+.sv-mini__ball {
+  filter: drop-shadow(0 0 4px rgba(253, 224, 71, 0.9));
+}
+.sv-hero__visual-tag {
+  position: absolute;
+  left: var(--space-3);
+  bottom: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: #eaf1ff;
+  background: rgba(10, 16, 32, 0.6);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 820px) {
+  .sv-hero {
+    grid-template-columns: 1fr;
+  }
+  .sv-hero__title {
+    font-size: var(--text-3xl);
+  }
+}
+@media (max-width: 560px) {
+  .sv-hero__points {
+    grid-template-columns: 1fr;
+  }
+  .sv-hero__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

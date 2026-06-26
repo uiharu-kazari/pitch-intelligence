@@ -1,278 +1,224 @@
-@import './design-system.css';
+/* Dashboard: control bar, chart panels, chips, themed tooltips, team select. */
 
 .dashboard {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: var(--space-8);
-  animation: fadeIn 0.6s var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: var(--space-8);
-  margin-bottom: var(--space-12);
-}
-
-/* Professional Card Styling */
-.chart-card,
-.table-card {
-  background: var(--white);
-  border-radius: var(--radius-2xl);
-  padding: var(--space-10);
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--gray-100);
-  transition: all var(--transition-base);
-  overflow: hidden;
-  position: relative;
-
-  /* Subtle gradient overlay on top */
-  background: linear-gradient(135deg, var(--white) 0%, var(--gray-50) 100%);
-}
-
-/* Hover effect with depth */
-.chart-card:hover,
-.table-card:hover {
-  transform: translateY(-8px) scale(1.01);
-  box-shadow: var(--shadow-2xl);
-  border-color: var(--primary-accent);
-}
-
-/* Animated gradient border on hover */
-.chart-card::before,
-.table-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg,
-    var(--chart-blue),
-    var(--chart-green),
-    var(--chart-orange));
-  opacity: 0;
-  transition: opacity var(--transition-base);
-  background-size: 200% 100%;
-  animation: shimmer 3s var(--transition-slow) infinite;
-}
-
-.chart-card:hover::before,
-.table-card:hover::before {
-  opacity: 1;
-}
-
-@keyframes shimmer {
-  0%, 100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-/* Card Titles */
-.chart-card h2,
-.table-card h2 {
-  margin: 0 0 var(--space-6) 0;
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--primary-dark);
-  letter-spacing: -0.02em;
+/* ---- Control bar ------------------------------------------------------------ */
+.dashboard__controls {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  position: relative;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
-.chart-card h2::before {
-  content: '';
-  width: 4px;
-  height: 24px;
-  background: linear-gradient(180deg, var(--chart-blue), var(--chart-green));
-  border-radius: var(--radius-sm);
+.dashboard__heading {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.02em;
 }
 
-/* Insight Text */
-.insight-text {
-  margin-top: var(--space-6);
+.control-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+}
+.control-group__label {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-left: var(--space-3);
+}
+
+.chip {
+  font: inherit;
   font-size: var(--text-sm);
-  color: var(--gray-600);
-  line-height: 1.6;
-  padding: var(--space-4);
-  background: var(--gray-50);
-  border-left: 3px solid var(--primary-accent);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  padding: var(--space-2) var(--space-4);
+  min-height: 36px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+    transform var(--dur-fast) var(--ease-premium), box-shadow var(--dur-fast) var(--ease);
+}
+.chip:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+.chip:active {
+  transform: scale(0.95);
+}
+.chip--active {
+  color: var(--on-accent);
+  background: var(--primary);
+  box-shadow: var(--glow-primary);
+}
+.chip--active:hover {
+  background: var(--primary-strong);
+}
+
+/* ---- Grid + panels ---------------------------------------------------------- */
+.dashboard__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+/* .glass supplies the frosted surface. Transition lists reveal props (opacity/transform)
+   AND box-shadow so the scroll-reveal entrance and hover glow both work on one element. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  transition: opacity var(--dur-slow) var(--ease-premium),
+    transform var(--dur-slow) var(--ease-premium),
+    box-shadow var(--dur-base) var(--ease);
+}
+.panel:hover {
+  box-shadow: var(--glow-primary), var(--elevation-3);
+}
+
+.panel__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.panel__title {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.panel__icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
   border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
 }
-
-.insight-text:hover {
-  background: var(--gray-100);
-  border-left-color: var(--chart-green);
-}
-
-/* Recharts Customization */
-.chart-card .recharts-wrapper {
-  margin: var(--space-4) 0;
-}
-
-.chart-card .recharts-surface {
-  border-radius: var(--radius-lg);
-  background: var(--white) !important;
-}
-
-/* Recharts Bar Styling */
-.recharts-bar-rectangle {
-  transition: all var(--transition-base) !important;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-}
-
-.recharts-bar-rectangle:hover {
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.12)) !important;
-}
-
-/* Recharts Scatter Styling */
-.recharts-scatter {
-  opacity: 0.9;
-}
-
-.recharts-scatter circle {
-  transition: all var(--transition-base) !important;
-}
-
-.recharts-scatter circle:hover {
-  opacity: 1 !important;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15)) !important;
-}
-
-/* Tooltip Styling */
-.recharts-tooltip-wrapper {
-  outline: none;
-}
-
-.recharts-default-tooltip {
-  background: var(--white) !important;
-  border: 2px solid var(--primary-accent) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: var(--shadow-xl) !important;
-  padding: var(--space-4) !important;
-}
-
-.recharts-tooltip-label {
-  color: var(--primary-dark) !important;
-  font-weight: 700 !important;
-  font-size: 0.95rem !important;
-  margin-bottom: 4px !important;
-}
-
-.recharts-tooltip-item {
-  color: var(--gray-700) !important;
-  font-weight: 500 !important;
-}
-
-/* Legend Styling */
-.recharts-legend-wrapper {
-  padding-top: var(--space-6) !important;
-  padding-bottom: 0 !important;
-}
-
-.recharts-legend-item {
-  padding-right: var(--space-6) !important;
-}
-
-.recharts-legend-item-text {
-  color: var(--gray-700) !important;
-  font-weight: 600 !important;
-  font-size: var(--text-sm) !important;
-}
-
-/* Axis Styling */
-.recharts-cartesian-axis-tick text {
-  fill: var(--gray-600) !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
-}
-
-.recharts-cartesian-axis-tick-value {
-  fill: var(--gray-600) !important;
-}
-
-.recharts-surface {
-  background: transparent !important;
-}
-
-/* Loading & Error States */
-.loading,
-.error {
-  text-align: center;
-  color: var(--white);
-  padding: var(--space-12);
+.panel__title h3 {
   font-size: var(--text-lg);
-  font-weight: 600;
-  border-radius: var(--radius-2xl);
-  animation: slideIn 0.4s var(--transition-base);
+  font-weight: var(--weight-semibold);
+}
+.panel__sub {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+  line-height: var(--leading-snug);
+  margin-top: 2px;
+  max-width: 42ch;
+}
+.panel__chart {
+  margin: 0 calc(-1 * var(--space-2));
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ---- Team select ------------------------------------------------------------ */
+.select {
+  position: relative;
+  display: inline-flex;
+}
+.select select {
+  appearance: none;
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-7) var(--space-2) var(--space-3);
+  min-height: 36px;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.select select:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-hover);
+}
+.select::after {
+  content: '';
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-subtle);
+  border-bottom: 2px solid var(--text-subtle);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
 }
 
-.loading {
-  background: linear-gradient(135deg, var(--primary), var(--primary-light));
-}
-
-.error {
-  background: linear-gradient(135deg, var(--danger), var(--warning));
+/* ---- Themed chart tooltip --------------------------------------------------- */
+.tooltip {
+  min-width: 160px;
+  padding: var(--space-3);
+  background: var(--tooltip-bg);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+}
+.tooltip__label {
+  font-weight: var(--weight-semibold);
+  color: var(--text);
+  margin-bottom: var(--space-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border);
+}
+.tooltip__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  padding: 1px 0;
+}
+.tooltip__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.tooltip__name {
+  flex: 1;
+}
+.tooltip__val {
+  font-weight: var(--weight-semibold);
+  color: var(--text);
+  font-family: var(--font-mono);
+}
+.tooltip__row--pos .tooltip__val {
+  color: var(--success);
+}
+.tooltip__row--neg .tooltip__val {
+  color: var(--danger);
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .dashboard {
-    padding: var(--space-4);
-  }
-
-  .dashboard-grid {
+/* ---- Responsive ------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .dashboard__grid {
     grid-template-columns: 1fr;
-    gap: var(--space-6);
   }
-
-  .chart-card,
-  .table-card {
-    padding: var(--space-6);
+}
+@media (max-width: 560px) {
+  .dashboard__controls {
+    align-items: flex-start;
+    flex-direction: column;
   }
-
-  .chart-card h2,
-  .table-card h2 {
-    font-size: var(--text-xl);
-  }
-
-  .chart-card:hover,
-  .table-card:hover {
-    transform: translateY(-4px) scale(1.005);
+  .panel__head {
+    flex-direction: column;
   }
 }

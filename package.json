@@ -1,7 +1,7 @@
 {
-  "name": "football-xg-analytics",
+  "name": "pitch-intelligence",
   "version": "1.0.0",
-  "description": "Football/Soccer Expected Goals Analytics Dashboard",
+  "description": "Pitch Intelligence \u2014 soccer analytics: xG dashboard + Soccer Vision 3D tactical analysis",
   "main": "server/index.js",
   "type": "module",
   "scripts": {
@@ -11,7 +11,13 @@
     "build": "cd client && npm run build",
     "preview": "cd client && npm run preview"
   },
-  "keywords": ["sports", "analytics", "football", "soccer", "xg"],
+  "keywords": [
+    "sports",
+    "analytics",
+    "football",
+    "soccer",
+    "xg"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
